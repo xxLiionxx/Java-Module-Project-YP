@@ -4,28 +4,29 @@ import java.util.Scanner;
 public class GetUserData {
     int numberOfGuests = 0;
     double total;
-    private double price;
-    private String temp = null, listOfProducts = "Добавленные товары:\n";
+    private String stopCode, listOfProducts = "Добавленные товары:\n";
     private Scanner userInput = new Scanner(System.in);
 
     void execute() {
-        String stopCode;
 
-        getNumberOfGuests();
+        numberOfGuests = getNumberOfGuests();
         while (true) {
             stopCode = getProduct();
+
             if (stopCode.toLowerCase(Locale.ROOT).equals("завершить")) {
                 break;
             }
+
             total = getPrice();
         }
+        userInput.close();
         System.out.println(listOfProducts);
     }
 
     private int getNumberOfGuests () {
+
         System.out.println("На сколько человек разделить счет?");
         while (numberOfGuests <= 1) {
-            Scanner userInput = new Scanner(System.in);
             if (userInput.hasNextInt()) {
                 numberOfGuests = userInput.nextInt();
                 if (numberOfGuests == 1) {
@@ -36,6 +37,7 @@ public class GetUserData {
                 }
             } else {
                 System.out.println("Некорректный ввод! Количество человек может быть только целом числом.");
+                userInput.next();
             }
         }
         System.out.println("Количество человек: " + numberOfGuests);
@@ -43,10 +45,11 @@ public class GetUserData {
     }
 
     private String getProduct() {
+        String temp;
 
         while (true) {
             System.out.println("Введите название товара");
-            if (userInput.hasNextDouble()) {
+            if (userInput.hasNextDouble() | userInput.hasNextInt()) {
                 System.out.println("Название товара не может состоять из одних только цифр!");
                 userInput.next();
                 continue;
@@ -61,13 +64,14 @@ public class GetUserData {
                     return "завершить";
                 } else {
                     listOfProducts += temp + " ";
-                    return "продолжем";
+                    return "продолжаем";
                 }
             }
         }
     }
 
     private double getPrice() {
+        double price;
 
         while (true) {
             System.out.println("Введите цену товара в формате \"рубли,копейки\", например: 4,20");
