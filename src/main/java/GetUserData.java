@@ -49,23 +49,17 @@ public class GetUserData {
 
         while (true) {
             System.out.println("Введите название товара");
-            if (userInput.hasNextDouble() | userInput.hasNextInt()) {
-                System.out.println("Название товара не может состоять из одних только цифр!");
-                userInput.next();
+            userInput.useDelimiter("\\n");
+            temp = userInput.next();
+            if (temp.isEmpty()) {
+                System.out.println("Введена пустная строка. Попробуйте еще раз.");
                 continue;
+            }
+            if (temp.toLowerCase(Locale.ROOT).equals("завершить")) {
+                return "завершить";
             } else {
-                userInput.useDelimiter("\\n");
-                temp = userInput.next();
-                if (temp.isEmpty()) {
-                    System.out.println("Введена пустная строка. Попробуйте еще раз.");
-                    continue;
-                }
-                if (temp.toLowerCase(Locale.ROOT).equals("завершить")) {
-                    return "завершить";
-                } else {
-                    listOfProducts += temp + " ";
-                    return "продолжаем";
-                }
+                listOfProducts += temp + " ";
+                return "продолжаем";
             }
         }
     }
